@@ -1,0 +1,730 @@
+<configuration-text>
+## Last changed: 2024-04-22 05:32:49 PDT
+version 23.4R1-S1.5;
+groups {
+    member0 {
+        system {
+            host-name r1_re;
+            backup-router 10.49.127.254;
+        }
+        interfaces {
+            fxp0 {
+                unit 0 {
+                    family inet {
+                        address 10.49.116.103/19;
+                    }
+                }
+            }
+        }
+    }
+    global {
+        system {
+            root-authentication {
+                encrypted-password "$1$ZUlES4dp$OUwWo1g7cLoV/aMWpHUnC/";
+            }
+            login {
+                class wheel {
+                    permissions snmp;
+                }
+                user regress {
+                    uid 928;
+                    class superuser;
+                    shell csh;
+                    authentication {
+                        encrypted-password "$1$kPU..$w.4FGRAGanJ8U4Yq6sbj7.";
+                    }
+                }
+                user remote {
+                    uid 2000;
+                    class super-user;
+                }
+            }
+            services {
+                netconf {
+                    ssh;
+                }
+                ssh {
+                    root-login allow;
+                }
+                finger;
+                ftp;
+                rlogin;
+                telnet;
+                xnm-clear-text;
+            }
+            domain-name englab.juniper.net;
+            domain-search [ englab.juniper.net juniper.net jnpr.net ];
+            time-zone America/Los_Angeles;
+            debugger-on-break;
+            dump-on-panic;
+            authentication-order [ password radius ];
+            name-server {
+                10.49.32.95;
+                10.49.32.97;
+            }
+            radius-server {
+                10.48.144.16 secret "$9$TQ/t1IcSrKAt0IRheK8X7VYgaZDm5zNdiqmTn6";
+                10.48.144.17 secret "$9$GqUqf3nCApOPfQn690ORhSeWL7-boZDylsgoGHk";
+            }
+            syslog {
+                host log {
+                    kernel info;
+                    any notice;
+                    pfe info;
+                    interactive-commands any;
+                }
+                file messages {
+                    kernel info;
+                    any notice;
+                    authorization info;
+                    pfe info;
+                    archive world-readable;
+                }
+                file security {
+                    interactive-commands any;
+                    archive world-readable;
+                }
+            }
+            processes {
+                routing enable;
+                ntp enable;
+                management enable;
+                watchdog enable;
+                snmp enable;
+                inet-process enable;
+                mib-process enable;
+            }
+            ntp {
+                boot-server 66.129.255.75;
+                server 66.129.255.75;
+                server 172.29.131.60;
+                server 172.29.135.60;
+            }
+        }
+        chassis {
+            dump-on-panic;
+        }
+        snmp {
+            location "Systest lab";
+            contact "Jay Lloyd";
+            interface fxp0.0;
+            community public {
+                authorization read-only;
+            }
+            community private {
+                authorization read-write;
+            }
+        }
+        routing-options {
+            static {
+                /* corperate and alpha net */
+                route 172.16.0.0/12 {
+                    next-hop 10.49.127.254;
+                    retain;
+                    no-readvertise;
+                }
+                /* eng lab nets */
+                route 192.168.0.0/16 {
+                    next-hop 10.49.127.254;
+                    retain;
+                    no-readvertise;
+                }
+                /* IT Networks */
+                route 10.0.0.0/8 {
+                    next-hop 10.49.127.254;
+                    retain;
+                    no-readvertise;
+                }
+                /* Sacramento */
+                route 66.129.0.0/16 {
+                    next-hop 10.49.127.254;
+                    retain;
+                    no-readvertise;
+                }
+            }
+        }
+    }
+    te-metric {
+        protocols {
+            isis {
+                interface &lt;*&gt; {
+                    level 2 te-metric 11;
+                }
+            }
+        }
+    }
+}
+apply-groups [ global member0 te-metric ];
+system {
+    ports {
+        console log-out-on-disconnect;
+    }
+}
+chassis {
+    network-services enhanced-ip;
+}
+services {
+    rpm {
+        twamp {
+            server {
+                authentication-mode none;
+                light;
+            }
+        }
+    }
+}
+interfaces {
+    ge-0/0/0 {
+        unit 0 {
+            family inet {
+                address 192.168.12.0/31;
+            }
+            family iso;
+            family mpls {
+                maximum-labels 16;
+            }
+        }
+    }
+    ge-0/0/1 {
+        unit 0 {
+            family inet {
+                address 192.168.13.0/31;
+            }
+            family iso;
+            family mpls {
+                maximum-labels 16;
+            }
+        }
+    }
+    ge-0/0/2 {
+        unit 0 {
+            family inet {
+                address 192.168.14.0/31;
+            }
+            family iso;
+            family mpls {
+                maximum-labels 16;
+            }
+        }
+    }
+    ge-0/0/3 {
+        flexible-vlan-tagging;
+        encapsulation flexible-ethernet-services;
+        unit 100 {
+            vlan-id 100;
+            family inet {
+                address 100.64.101.1/31;
+            }
+        }
+        unit 200 {
+            encapsulation vlan-bridge;
+            vlan-id 200;
+        }
+        unit 300 {
+            encapsulation vlan-bridge;
+            vlan-id 300;
+        }
+        unit 400 {
+            encapsulation vlan-bridge;
+            vlan-id 400;
+        }
+        unit 401 {
+            encapsulation vlan-bridge;
+            vlan-id 401;
+        }
+        unit 500 {
+            encapsulation vlan-bridge;
+            vlan-id 500;
+        }
+        unit 501 {
+            encapsulation vlan-bridge;
+            vlan-id 501;
+        }
+        unit 600 {
+            encapsulation vlan-bridge;
+            vlan-id 600;
+        }
+        unit 601 {
+            encapsulation vlan-bridge;
+            vlan-id 601;
+        }
+        unit 700 {
+            encapsulation vlan-bridge;
+            vlan-id 700;
+        }
+        unit 800 {
+            encapsulation vlan-ccc;
+            vlan-id 800;
+        }
+    }
+    ge-0/0/4 {
+        unit 0 {
+            family inet {
+                address 192.168.201.11/24;
+            }
+            family iso;
+            family mpls {
+                maximum-labels 16;
+            }
+        }
+    }
+    ge-0/0/5 {
+        unit 0 {
+            family inet {
+                address 192.168.202.11/24;
+            }
+            family iso;
+            family mpls {
+                maximum-labels 16;
+            }
+        }
+    }
+    irb {
+        unit 200 {
+            family inet {
+                address 100.64.200.1/24;
+            }
+        }
+        unit 600 {
+            family inet {
+                address 100.64.60.1/24;
+            }
+        }
+    }
+    lo0 {
+        unit 0 {
+            family inet {
+                address 1.1.1.1/32;
+            }
+            family iso {
+                address 49.0001.0001.0001.0001.00;
+            }
+        }
+        unit 101 {
+            family inet {
+                address 11.11.11.11/32;
+            }
+        }
+    }
+}
+policy-options {
+    policy-statement evpn2-exp {
+        term ok {
+            then {
+                community add evpn2-rt;
+                community add c128;
+                accept;
+            }
+        }
+        then reject;
+    }
+    policy-statement evpn2-imp {
+        term ok {
+            from {
+                protocol bgp;
+                community evpn2-rt;
+            }
+            then accept;
+        }
+        then reject;
+    }
+    policy-statement evpn3-exp {
+        term ok {
+            then {
+                community add evpn3-rt;
+                community add c129;
+                accept;
+            }
+        }
+        then reject;
+    }
+    policy-statement evpn3-imp {
+        term ok {
+            from {
+                protocol bgp;
+                community evpn3-rt;
+            }
+            then accept;
+        }
+        then reject;
+    }
+    policy-statement evpn4-exp {
+        term ok {
+            then {
+                community add evpn4-rt;
+                community add c130;
+                accept;
+            }
+        }
+        then reject;
+    }
+    policy-statement evpn4-imp {
+        term ok {
+            from {
+                protocol bgp;
+                community evpn4-rt;
+            }
+            then accept;
+        }
+        then reject;
+    }
+    policy-statement evpn5-exp {
+        term ok {
+            then {
+                community add c130;
+                accept;
+            }
+        }
+        then reject;
+    }
+    policy-statement exp-anycast-sr {
+        term nodesid {
+            from {
+                interface lo0.0;
+                route-filter 1.1.1.1/32 exact;
+            }
+            then {
+                prefix-segment {
+                    algorithm 128 index 201 node-segment;
+                    algorithm 129 index 301 node-segment;
+                    algorithm 130 index 401 node-segment;
+                    index 101;
+                    node-segment;
+                }
+                accept;
+            }
+        }
+        then reject;
+    }
+    policy-statement vpn1-exp {
+        term lo0 {
+            from interface lo0.101;
+            then {
+                community add c128;
+                community add vpn1-rt;
+                accept;
+            }
+        }
+        term bgp {
+            from protocol bgp;
+            then {
+                community add c129;
+                community add vpn1-rt;
+                accept;
+            }
+        }
+        then reject;
+    }
+    policy-statement vpn1-imp {
+        term bgp {
+            from {
+                protocol bgp;
+                community vpn1-rt;
+            }
+            then accept;
+        }
+        then reject;
+    }
+    policy-statement vpws1-exp {
+        term ok {
+            then {
+                community add vpws1-rt;
+                community add c129;
+                accept;
+            }
+        }
+        then reject;
+    }
+    policy-statement vpws1-imp {
+        term ok {
+            from {
+                protocol bgp;
+                community vpws1-rt;
+            }
+            then accept;
+        }
+        then reject;
+    }
+    community c128 members color:0:128;
+    community c129 members color:0:129;
+    community c130 members color:0:130;
+    community evpn2-rt members target:100:103;
+    community evpn3-rt members target:100:104;
+    community evpn4-rt members target:100:105;
+    community lu-comm members 100:999;
+    community vpn1-rt members target:100:101;
+    community vpws1-rt members target:100:109;
+}
+routing-instances {
+    evpn1 {
+        instance-type evpn;
+        protocols {
+            evpn;
+        }
+        vlan-id none;
+        routing-interface irb.200;
+        interface ge-0/0/3.200;
+        route-distinguisher 1.1.1.1:102;
+        vrf-target target:100:102;
+    }
+    evpn2 {
+        instance-type evpn;
+        protocols {
+            evpn;
+        }
+        vlan-id none;
+        interface ge-0/0/3.300;
+        route-distinguisher 1.1.1.1:103;
+        vrf-import evpn2-imp;
+        vrf-export evpn2-exp;
+    }
+    evpn3 {
+        instance-type evpn;
+        protocols {
+            evpn;
+        }
+        interface ge-0/0/3.400;
+        interface ge-0/0/3.401;
+        route-distinguisher 1.1.1.1:104;
+        vrf-import evpn3-imp;
+        vrf-export evpn3-exp;
+    }
+    evpn4 {
+        instance-type virtual-switch;
+        protocols {
+            evpn {
+                extended-vlan-list 500-501;
+            }
+        }
+        bridge-domains {
+            v500 {
+                domain-type bridge;
+                vlan-id 500;
+                interface ge-0/0/3.500;
+            }
+            v501 {
+                domain-type bridge;
+                vlan-id 501;
+                interface ge-0/0/3.501;
+            }
+        }
+        route-distinguisher 1.1.1.1:105;
+        vrf-import evpn4-imp;
+        vrf-export evpn4-exp;
+    }
+    evpn5 {
+        instance-type virtual-switch;
+        protocols {
+            evpn {
+                extended-vlan-list 600-601;
+            }
+        }
+        bridge-domains {
+            v600 {
+                domain-type bridge;
+                vlan-id 600;
+                interface ge-0/0/3.600;
+                routing-interface irb.600;
+            }
+            v601 {
+                domain-type bridge;
+                vlan-id 601;
+                interface ge-0/0/3.601;
+            }
+        }
+        route-distinguisher 1.1.1.1:106;
+        vrf-export evpn5-exp;
+        vrf-target {
+            target:100:106;
+            export color:0:130;
+            auto;
+        }
+    }
+    evpn6 {
+        instance-type mac-vrf;
+        protocols {
+            evpn {
+                encapsulation vxlan;
+            }
+        }
+        vtep-source-interface lo0.0;
+        bridge-domains {
+            v700 {
+                vlan-id 700;
+                interface ge-0/0/3.700;
+                vxlan {
+                    vni 10700;
+                }
+            }
+        }
+        service-type vlan-based;
+        interface ge-0/0/3.700;
+        route-distinguisher 1.1.1.1:108;
+        vrf-target target:100:108;
+    }
+    vpn1 {
+        instance-type vrf;
+        protocols {
+            bgp {
+                group ebgp {
+                    type external;
+                    peer-as 65101;
+                    neighbor 100.64.101.0;
+                }
+            }
+        }
+        interface ge-0/0/3.100;
+        interface lo0.101;
+        route-distinguisher 1.1.1.1:1;
+        vrf-import vpn1-imp;
+        vrf-export vpn1-exp;
+        vrf-table-label;
+    }
+    vpws1 {
+        instance-type evpn-vpws;
+        protocols {
+            evpn {
+                interface ge-0/0/3.800 {
+                    vpws-service-id {
+                        local 100;
+                        remote 1100;
+                    }
+                }
+            }
+        }
+        interface ge-0/0/3.800;
+        route-distinguisher 1.1.1.1:109;
+        vrf-import vpws1-imp;
+        vrf-export vpws1-exp;
+        inactive: vrf-target target:100:109;
+    }
+}
+routing-options {
+    flex-algorithm 128 {
+        definition {
+            priority 100;
+        }
+        color 128;
+        use-transport-class;
+    }
+    flex-algorithm 129 {
+        definition {
+            metric-type delay-metric;
+            priority 100;
+        }
+        color 129;
+        use-transport-class;
+    }
+    flex-algorithm 130 {
+        definition {
+            metric-type te-metric;
+            priority 100;
+        }
+        color 130;
+        use-transport-class;
+    }
+    route-distinguisher-id 1.1.1.1;
+    resolution {
+        scheme lu {
+            resolution-ribs inet.3;
+            mapping-community 100:999;
+        }
+    }
+    router-id 1.1.1.1;
+    autonomous-system 100;
+    static {
+        route 201.1.1.1/32 next-hop 192.168.201.1;
+        route 202.1.1.1/32 next-hop 192.168.202.1;
+    }
+    transport-class {
+        name tc128 {
+            color 128;
+        }
+        name tc129 {
+            color 129;
+        }
+        name tc130 {
+            color 130;
+        }
+    }
+}
+protocols {
+    bgp {
+        group rr1 {
+            type internal;
+            local-address 1.1.1.1;
+            family inet {
+                labeled-unicast;
+            }
+            family inet-vpn {
+                unicast;
+            }
+            family evpn {
+                signaling;
+            }
+            neighbor 201.1.1.1;
+            neighbor 202.1.1.1;
+        }
+    }
+    isis {
+        interface ge-0/0/0.0 {
+            level 1 disable;
+            level 2 te-metric 25;
+            delay-measurement {
+                advertisement {
+                    periodic {
+                        threshold 100;
+                    }
+                }
+            }
+            point-to-point;
+        }
+        interface ge-0/0/1.0 {
+            level 1 disable;
+            delay-measurement {
+                advertisement {
+                    periodic {
+                        threshold 100;
+                    }
+                }
+            }
+            point-to-point;
+        }
+        interface ge-0/0/2.0 {
+            level 1 disable;
+            delay-measurement {
+                advertisement {
+                    periodic {
+                        threshold 100;
+                    }
+                }
+            }
+            point-to-point;
+        }
+        interface lo0.0;
+        source-packet-routing {
+            srgb start-label 1000 index-range 1000;
+            flex-algorithm [ 128 129 130 ];
+        }
+        level 2 {
+            labeled-preference 21;
+            flex-algorithm-preference 22;
+            wide-metrics-only;
+            preference 20;
+        }
+        traffic-engineering {
+            l3-unicast-topology;
+            advertisement always;
+        }
+        export exp-anycast-sr;
+    }
+    mpls {
+        interface ge-0/0/0.0;
+        interface ge-0/0/1.0;
+        interface ge-0/0/2.0;
+    }
+    source-packet-routing {
+        use-transport-class;
+    }
+}
+</configuration-text>

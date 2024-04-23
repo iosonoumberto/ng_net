@@ -1,0 +1,213 @@
+<configuration-text>
+## Last changed: 2024-04-22 04:35:59 PDT
+version 23.4R1-S1.5;
+groups {
+    member0 {
+        system {
+            host-name rr1_re;
+            backup-router 10.49.127.254;
+        }
+        interfaces {
+            fxp0 {
+                unit 0 {
+                    family inet {
+                        address 10.49.106.20/19;
+                    }
+                }
+            }
+        }
+    }
+    global {
+        system {
+            root-authentication {
+                encrypted-password "$1$ZUlES4dp$OUwWo1g7cLoV/aMWpHUnC/";
+            }
+            login {
+                class wheel {
+                    permissions snmp;
+                }
+                user regress {
+                    uid 928;
+                    class superuser;
+                    shell csh;
+                    authentication {
+                        encrypted-password "$1$kPU..$w.4FGRAGanJ8U4Yq6sbj7.";
+                    }
+                }
+                user remote {
+                    uid 2000;
+                    class super-user;
+                }
+            }
+            services {
+                netconf {
+                    ssh;
+                }
+                ssh {
+                    root-login allow;
+                }
+                finger;
+                ftp;
+                rlogin;
+                telnet;
+                xnm-clear-text;
+            }
+            domain-name englab.juniper.net;
+            domain-search [ englab.juniper.net juniper.net jnpr.net ];
+            time-zone America/Los_Angeles;
+            debugger-on-break;
+            dump-on-panic;
+            authentication-order [ password radius ];
+            name-server {
+                10.49.32.95;
+                10.49.32.97;
+            }
+            radius-server {
+                10.48.144.16 secret "$9$TQ/t1IcSrKAt0IRheK8X7VYgaZDm5zNdiqmTn6";
+                10.48.144.17 secret "$9$GqUqf3nCApOPfQn690ORhSeWL7-boZDylsgoGHk";
+            }
+            syslog {
+                host log {
+                    kernel info;
+                    any notice;
+                    pfe info;
+                    interactive-commands any;
+                }
+                file messages {
+                    kernel info;
+                    any notice;
+                    authorization info;
+                    pfe info;
+                    archive world-readable;
+                }
+                file security {
+                    interactive-commands any;
+                    archive world-readable;
+                }
+            }
+            processes {
+                routing enable;
+                ntp enable;
+                management enable;
+                watchdog enable;
+                snmp enable;
+                inet-process enable;
+                mib-process enable;
+            }
+            ntp {
+                boot-server 66.129.255.75;
+                server 66.129.255.75;
+                server 172.29.131.60;
+                server 172.29.135.60;
+            }
+        }
+        chassis {
+            dump-on-panic;
+        }
+        snmp {
+            location "Systest lab";
+            contact "Jay Lloyd";
+            interface fxp0.0;
+            community public {
+                authorization read-only;
+            }
+            community private {
+                authorization read-write;
+            }
+        }
+        routing-options {
+            static {
+                /* corperate and alpha net */
+                route 172.16.0.0/12 {
+                    next-hop 10.49.127.254;
+                    retain;
+                    no-readvertise;
+                }
+                /* eng lab nets */
+                route 192.168.0.0/16 {
+                    next-hop 10.49.127.254;
+                    retain;
+                    no-readvertise;
+                }
+                /* IT Networks */
+                route 10.0.0.0/8 {
+                    next-hop 10.49.127.254;
+                    retain;
+                    no-readvertise;
+                }
+                /* Sacramento */
+                route 66.129.0.0/16 {
+                    next-hop 10.49.127.254;
+                    retain;
+                    no-readvertise;
+                }
+            }
+        }
+    }
+}
+apply-groups [ global member0 ];
+system {
+    ports {
+        console log-out-on-disconnect;
+    }
+}
+chassis {
+    network-services enhanced-ip;
+}
+interfaces {
+    ge-0/0/0 {
+        unit 0 {
+            family inet {
+                address 192.168.201.1/24;
+            }
+            family iso;
+            family mpls {
+                maximum-labels 16;
+            }
+        }
+    }
+    lo0 {
+        unit 0 {
+            family inet {
+                address 201.1.1.1/32;
+            }
+        }
+    }
+}
+routing-options {
+    rib inet.3 {
+        static {
+            route 0.0.0.0/0 discard;
+        }
+    }
+    autonomous-system 100;
+    static {
+        route 1.1.1.1/32 next-hop 192.168.201.11;
+        route 2.2.2.2/32 next-hop 192.168.201.12;
+        route 5.5.5.5/32 next-hop 192.168.201.13;
+        route 6.6.6.6/32 next-hop 192.168.201.14;
+    }
+}
+protocols {
+    bgp {
+        group rr1 {
+            type internal;
+            local-address 201.1.1.1;
+            family inet {
+                labeled-unicast;
+            }
+            family inet-vpn {
+                unicast;
+            }
+            family evpn {
+                signaling;
+            }
+            cluster 0.0.0.201;
+            neighbor 1.1.1.1;
+            neighbor 2.2.2.2;
+            neighbor 5.5.5.5;
+            neighbor 6.6.6.6;
+        }
+    }
+}
+</configuration-text>

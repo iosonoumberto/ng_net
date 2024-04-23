@@ -1,0 +1,325 @@
+<configuration-set>
+set version 23.4R1-S1.5
+set groups member0 system host-name r1_re
+set groups member0 system backup-router 10.49.127.254
+set groups member0 interfaces fxp0 unit 0 family inet address 10.49.116.103/19
+set groups global system root-authentication encrypted-password "$1$ZUlES4dp$OUwWo1g7cLoV/aMWpHUnC/"
+set groups global system login class wheel permissions snmp
+set groups global system login user regress uid 928
+set groups global system login user regress class superuser
+set groups global system login user regress shell csh
+set groups global system login user regress authentication encrypted-password "$1$kPU..$w.4FGRAGanJ8U4Yq6sbj7."
+set groups global system login user remote uid 2000
+set groups global system login user remote class super-user
+set groups global system services netconf ssh
+set groups global system services ssh root-login allow
+set groups global system services finger
+set groups global system services ftp
+set groups global system services rlogin
+set groups global system services telnet
+set groups global system services xnm-clear-text
+set groups global system domain-name englab.juniper.net
+set groups global system domain-search englab.juniper.net
+set groups global system domain-search juniper.net
+set groups global system domain-search jnpr.net
+set groups global system time-zone America/Los_Angeles
+set groups global system debugger-on-break
+set groups global system dump-on-panic
+set groups global system authentication-order password
+set groups global system authentication-order radius
+set groups global system name-server 10.49.32.95
+set groups global system name-server 10.49.32.97
+set groups global system radius-server 10.48.144.16 secret "$9$TQ/t1IcSrKAt0IRheK8X7VYgaZDm5zNdiqmTn6"
+set groups global system radius-server 10.48.144.17 secret "$9$GqUqf3nCApOPfQn690ORhSeWL7-boZDylsgoGHk"
+set groups global system syslog host log kernel info
+set groups global system syslog host log any notice
+set groups global system syslog host log pfe info
+set groups global system syslog host log interactive-commands any
+set groups global system syslog file messages kernel info
+set groups global system syslog file messages any notice
+set groups global system syslog file messages authorization info
+set groups global system syslog file messages pfe info
+set groups global system syslog file messages archive world-readable
+set groups global system syslog file security interactive-commands any
+set groups global system syslog file security archive world-readable
+set groups global system processes routing enable
+set groups global system processes ntp enable
+set groups global system processes management enable
+set groups global system processes watchdog enable
+set groups global system processes snmp enable
+set groups global system processes inet-process enable
+set groups global system processes mib-process enable
+set groups global system ntp boot-server 66.129.255.75
+set groups global system ntp server 66.129.255.75
+set groups global system ntp server 172.29.131.60
+set groups global system ntp server 172.29.135.60
+set groups global chassis dump-on-panic
+set groups global snmp location "Systest lab"
+set groups global snmp contact "Jay Lloyd"
+set groups global snmp interface fxp0.0
+set groups global snmp community public authorization read-only
+set groups global snmp community private authorization read-write
+set groups global routing-options static route 172.16.0.0/12 next-hop 10.49.127.254
+set groups global routing-options static route 172.16.0.0/12 retain
+set groups global routing-options static route 172.16.0.0/12 no-readvertise
+set groups global routing-options static route 192.168.0.0/16 next-hop 10.49.127.254
+set groups global routing-options static route 192.168.0.0/16 retain
+set groups global routing-options static route 192.168.0.0/16 no-readvertise
+set groups global routing-options static route 10.0.0.0/8 next-hop 10.49.127.254
+set groups global routing-options static route 10.0.0.0/8 retain
+set groups global routing-options static route 10.0.0.0/8 no-readvertise
+set groups global routing-options static route 66.129.0.0/16 next-hop 10.49.127.254
+set groups global routing-options static route 66.129.0.0/16 retain
+set groups global routing-options static route 66.129.0.0/16 no-readvertise
+set groups te-metric protocols isis interface &lt;*&gt; level 2 te-metric 11
+set apply-groups global
+set apply-groups member0
+set apply-groups te-metric
+set system ports console log-out-on-disconnect
+set chassis network-services enhanced-ip
+set services rpm twamp server authentication-mode none
+set services rpm twamp server light
+set interfaces ge-0/0/0 unit 0 family inet address 192.168.12.0/31
+set interfaces ge-0/0/0 unit 0 family iso
+set interfaces ge-0/0/0 unit 0 family mpls maximum-labels 16
+set interfaces ge-0/0/1 unit 0 family inet address 192.168.13.0/31
+set interfaces ge-0/0/1 unit 0 family iso
+set interfaces ge-0/0/1 unit 0 family mpls maximum-labels 16
+set interfaces ge-0/0/2 unit 0 family inet address 192.168.14.0/31
+set interfaces ge-0/0/2 unit 0 family iso
+set interfaces ge-0/0/2 unit 0 family mpls maximum-labels 16
+set interfaces ge-0/0/3 flexible-vlan-tagging
+set interfaces ge-0/0/3 encapsulation flexible-ethernet-services
+set interfaces ge-0/0/3 unit 100 vlan-id 100
+set interfaces ge-0/0/3 unit 100 family inet address 100.64.101.1/31
+set interfaces ge-0/0/3 unit 200 encapsulation vlan-bridge
+set interfaces ge-0/0/3 unit 200 vlan-id 200
+set interfaces ge-0/0/3 unit 300 encapsulation vlan-bridge
+set interfaces ge-0/0/3 unit 300 vlan-id 300
+set interfaces ge-0/0/3 unit 400 encapsulation vlan-bridge
+set interfaces ge-0/0/3 unit 400 vlan-id 400
+set interfaces ge-0/0/3 unit 401 encapsulation vlan-bridge
+set interfaces ge-0/0/3 unit 401 vlan-id 401
+set interfaces ge-0/0/3 unit 500 encapsulation vlan-bridge
+set interfaces ge-0/0/3 unit 500 vlan-id 500
+set interfaces ge-0/0/3 unit 501 encapsulation vlan-bridge
+set interfaces ge-0/0/3 unit 501 vlan-id 501
+set interfaces ge-0/0/3 unit 600 encapsulation vlan-bridge
+set interfaces ge-0/0/3 unit 600 vlan-id 600
+set interfaces ge-0/0/3 unit 601 encapsulation vlan-bridge
+set interfaces ge-0/0/3 unit 601 vlan-id 601
+set interfaces ge-0/0/3 unit 700 encapsulation vlan-bridge
+set interfaces ge-0/0/3 unit 700 vlan-id 700
+set interfaces ge-0/0/3 unit 800 encapsulation vlan-ccc
+set interfaces ge-0/0/3 unit 800 vlan-id 800
+set interfaces ge-0/0/4 unit 0 family inet address 192.168.201.11/24
+set interfaces ge-0/0/4 unit 0 family iso
+set interfaces ge-0/0/4 unit 0 family mpls maximum-labels 16
+set interfaces ge-0/0/5 unit 0 family inet address 192.168.202.11/24
+set interfaces ge-0/0/5 unit 0 family iso
+set interfaces ge-0/0/5 unit 0 family mpls maximum-labels 16
+set interfaces irb unit 200 family inet address 100.64.200.1/24
+set interfaces irb unit 600 family inet address 100.64.60.1/24
+set interfaces lo0 unit 0 family inet address 1.1.1.1/32
+set interfaces lo0 unit 0 family iso address 49.0001.0001.0001.0001.00
+set interfaces lo0 unit 101 family inet address 11.11.11.11/32
+set policy-options policy-statement evpn2-exp term ok then community add evpn2-rt
+set policy-options policy-statement evpn2-exp term ok then community add c128
+set policy-options policy-statement evpn2-exp term ok then accept
+set policy-options policy-statement evpn2-exp then reject
+set policy-options policy-statement evpn2-imp term ok from protocol bgp
+set policy-options policy-statement evpn2-imp term ok from community evpn2-rt
+set policy-options policy-statement evpn2-imp term ok then accept
+set policy-options policy-statement evpn2-imp then reject
+set policy-options policy-statement evpn3-exp term ok then community add evpn3-rt
+set policy-options policy-statement evpn3-exp term ok then community add c129
+set policy-options policy-statement evpn3-exp term ok then accept
+set policy-options policy-statement evpn3-exp then reject
+set policy-options policy-statement evpn3-imp term ok from protocol bgp
+set policy-options policy-statement evpn3-imp term ok from community evpn3-rt
+set policy-options policy-statement evpn3-imp term ok then accept
+set policy-options policy-statement evpn3-imp then reject
+set policy-options policy-statement evpn4-exp term ok then community add evpn4-rt
+set policy-options policy-statement evpn4-exp term ok then community add c130
+set policy-options policy-statement evpn4-exp term ok then accept
+set policy-options policy-statement evpn4-exp then reject
+set policy-options policy-statement evpn4-imp term ok from protocol bgp
+set policy-options policy-statement evpn4-imp term ok from community evpn4-rt
+set policy-options policy-statement evpn4-imp term ok then accept
+set policy-options policy-statement evpn4-imp then reject
+set policy-options policy-statement evpn5-exp term ok then community add c130
+set policy-options policy-statement evpn5-exp term ok then accept
+set policy-options policy-statement evpn5-exp then reject
+set policy-options policy-statement exp-anycast-sr term nodesid from interface lo0.0
+set policy-options policy-statement exp-anycast-sr term nodesid from route-filter 1.1.1.1/32 exact
+set policy-options policy-statement exp-anycast-sr term nodesid then prefix-segment algorithm 128 index 201
+set policy-options policy-statement exp-anycast-sr term nodesid then prefix-segment algorithm 128 node-segment
+set policy-options policy-statement exp-anycast-sr term nodesid then prefix-segment algorithm 129 index 301
+set policy-options policy-statement exp-anycast-sr term nodesid then prefix-segment algorithm 129 node-segment
+set policy-options policy-statement exp-anycast-sr term nodesid then prefix-segment algorithm 130 index 401
+set policy-options policy-statement exp-anycast-sr term nodesid then prefix-segment algorithm 130 node-segment
+set policy-options policy-statement exp-anycast-sr term nodesid then prefix-segment index 101
+set policy-options policy-statement exp-anycast-sr term nodesid then prefix-segment node-segment
+set policy-options policy-statement exp-anycast-sr term nodesid then accept
+set policy-options policy-statement exp-anycast-sr then reject
+set policy-options policy-statement vpn1-exp term lo0 from interface lo0.101
+set policy-options policy-statement vpn1-exp term lo0 then community add c128
+set policy-options policy-statement vpn1-exp term lo0 then community add vpn1-rt
+set policy-options policy-statement vpn1-exp term lo0 then accept
+set policy-options policy-statement vpn1-exp term bgp from protocol bgp
+set policy-options policy-statement vpn1-exp term bgp then community add c129
+set policy-options policy-statement vpn1-exp term bgp then community add vpn1-rt
+set policy-options policy-statement vpn1-exp term bgp then accept
+set policy-options policy-statement vpn1-exp then reject
+set policy-options policy-statement vpn1-imp term bgp from protocol bgp
+set policy-options policy-statement vpn1-imp term bgp from community vpn1-rt
+set policy-options policy-statement vpn1-imp term bgp then accept
+set policy-options policy-statement vpn1-imp then reject
+set policy-options policy-statement vpws1-exp term ok then community add vpws1-rt
+set policy-options policy-statement vpws1-exp term ok then community add c129
+set policy-options policy-statement vpws1-exp term ok then accept
+set policy-options policy-statement vpws1-exp then reject
+set policy-options policy-statement vpws1-imp term ok from protocol bgp
+set policy-options policy-statement vpws1-imp term ok from community vpws1-rt
+set policy-options policy-statement vpws1-imp term ok then accept
+set policy-options policy-statement vpws1-imp then reject
+set policy-options community c128 members color:0:128
+set policy-options community c129 members color:0:129
+set policy-options community c130 members color:0:130
+set policy-options community evpn2-rt members target:100:103
+set policy-options community evpn3-rt members target:100:104
+set policy-options community evpn4-rt members target:100:105
+set policy-options community lu-comm members 100:999
+set policy-options community vpn1-rt members target:100:101
+set policy-options community vpws1-rt members target:100:109
+set routing-instances evpn1 instance-type evpn
+set routing-instances evpn1 protocols evpn
+set routing-instances evpn1 vlan-id none
+set routing-instances evpn1 routing-interface irb.200
+set routing-instances evpn1 interface ge-0/0/3.200
+set routing-instances evpn1 route-distinguisher 1.1.1.1:102
+set routing-instances evpn1 vrf-target target:100:102
+set routing-instances evpn2 instance-type evpn
+set routing-instances evpn2 protocols evpn
+set routing-instances evpn2 vlan-id none
+set routing-instances evpn2 interface ge-0/0/3.300
+set routing-instances evpn2 route-distinguisher 1.1.1.1:103
+set routing-instances evpn2 vrf-import evpn2-imp
+set routing-instances evpn2 vrf-export evpn2-exp
+set routing-instances evpn3 instance-type evpn
+set routing-instances evpn3 protocols evpn
+set routing-instances evpn3 interface ge-0/0/3.400
+set routing-instances evpn3 interface ge-0/0/3.401
+set routing-instances evpn3 route-distinguisher 1.1.1.1:104
+set routing-instances evpn3 vrf-import evpn3-imp
+set routing-instances evpn3 vrf-export evpn3-exp
+set routing-instances evpn4 instance-type virtual-switch
+set routing-instances evpn4 protocols evpn extended-vlan-list 500-501
+set routing-instances evpn4 bridge-domains v500 domain-type bridge
+set routing-instances evpn4 bridge-domains v500 vlan-id 500
+set routing-instances evpn4 bridge-domains v500 interface ge-0/0/3.500
+set routing-instances evpn4 bridge-domains v501 domain-type bridge
+set routing-instances evpn4 bridge-domains v501 vlan-id 501
+set routing-instances evpn4 bridge-domains v501 interface ge-0/0/3.501
+set routing-instances evpn4 route-distinguisher 1.1.1.1:105
+set routing-instances evpn4 vrf-import evpn4-imp
+set routing-instances evpn4 vrf-export evpn4-exp
+set routing-instances evpn5 instance-type virtual-switch
+set routing-instances evpn5 protocols evpn extended-vlan-list 600-601
+set routing-instances evpn5 bridge-domains v600 domain-type bridge
+set routing-instances evpn5 bridge-domains v600 vlan-id 600
+set routing-instances evpn5 bridge-domains v600 interface ge-0/0/3.600
+set routing-instances evpn5 bridge-domains v600 routing-interface irb.600
+set routing-instances evpn5 bridge-domains v601 domain-type bridge
+set routing-instances evpn5 bridge-domains v601 vlan-id 601
+set routing-instances evpn5 bridge-domains v601 interface ge-0/0/3.601
+set routing-instances evpn5 route-distinguisher 1.1.1.1:106
+set routing-instances evpn5 vrf-export evpn5-exp
+set routing-instances evpn5 vrf-target target:100:106
+set routing-instances evpn5 vrf-target export color:0:130
+set routing-instances evpn5 vrf-target auto
+set routing-instances evpn6 instance-type mac-vrf
+set routing-instances evpn6 protocols evpn encapsulation vxlan
+set routing-instances evpn6 vtep-source-interface lo0.0
+set routing-instances evpn6 bridge-domains v700 vlan-id 700
+set routing-instances evpn6 bridge-domains v700 interface ge-0/0/3.700
+set routing-instances evpn6 bridge-domains v700 vxlan vni 10700
+set routing-instances evpn6 service-type vlan-based
+set routing-instances evpn6 interface ge-0/0/3.700
+set routing-instances evpn6 route-distinguisher 1.1.1.1:108
+set routing-instances evpn6 vrf-target target:100:108
+set routing-instances vpn1 instance-type vrf
+set routing-instances vpn1 protocols bgp group ebgp type external
+set routing-instances vpn1 protocols bgp group ebgp peer-as 65101
+set routing-instances vpn1 protocols bgp group ebgp neighbor 100.64.101.0
+set routing-instances vpn1 interface ge-0/0/3.100
+set routing-instances vpn1 interface lo0.101
+set routing-instances vpn1 route-distinguisher 1.1.1.1:1
+set routing-instances vpn1 vrf-import vpn1-imp
+set routing-instances vpn1 vrf-export vpn1-exp
+set routing-instances vpn1 vrf-table-label
+set routing-instances vpws1 instance-type evpn-vpws
+set routing-instances vpws1 protocols evpn interface ge-0/0/3.800 vpws-service-id local 100
+set routing-instances vpws1 protocols evpn interface ge-0/0/3.800 vpws-service-id remote 1100
+set routing-instances vpws1 interface ge-0/0/3.800
+set routing-instances vpws1 route-distinguisher 1.1.1.1:109
+set routing-instances vpws1 vrf-import vpws1-imp
+set routing-instances vpws1 vrf-export vpws1-exp
+set routing-instances vpws1 vrf-target target:100:109
+deactivate routing-instances vpws1 vrf-target
+set routing-options flex-algorithm 128 definition priority 100
+set routing-options flex-algorithm 128 color 128
+set routing-options flex-algorithm 128 use-transport-class
+set routing-options flex-algorithm 129 definition metric-type delay-metric
+set routing-options flex-algorithm 129 definition priority 100
+set routing-options flex-algorithm 129 color 129
+set routing-options flex-algorithm 129 use-transport-class
+set routing-options flex-algorithm 130 definition metric-type te-metric
+set routing-options flex-algorithm 130 definition priority 100
+set routing-options flex-algorithm 130 color 130
+set routing-options flex-algorithm 130 use-transport-class
+set routing-options route-distinguisher-id 1.1.1.1
+set routing-options resolution scheme lu resolution-ribs inet.3
+set routing-options resolution scheme lu mapping-community 100:999
+set routing-options router-id 1.1.1.1
+set routing-options autonomous-system 100
+set routing-options static route 201.1.1.1/32 next-hop 192.168.201.1
+set routing-options static route 202.1.1.1/32 next-hop 192.168.202.1
+set routing-options transport-class name tc128 color 128
+set routing-options transport-class name tc129 color 129
+set routing-options transport-class name tc130 color 130
+set protocols bgp group rr1 type internal
+set protocols bgp group rr1 local-address 1.1.1.1
+set protocols bgp group rr1 family inet labeled-unicast
+set protocols bgp group rr1 family inet-vpn unicast
+set protocols bgp group rr1 family evpn signaling
+set protocols bgp group rr1 neighbor 201.1.1.1
+set protocols bgp group rr1 neighbor 202.1.1.1
+set protocols isis interface ge-0/0/0.0 level 1 disable
+set protocols isis interface ge-0/0/0.0 level 2 te-metric 25
+set protocols isis interface ge-0/0/0.0 delay-measurement advertisement periodic threshold 100
+set protocols isis interface ge-0/0/0.0 point-to-point
+set protocols isis interface ge-0/0/1.0 level 1 disable
+set protocols isis interface ge-0/0/1.0 delay-measurement advertisement periodic threshold 100
+set protocols isis interface ge-0/0/1.0 point-to-point
+set protocols isis interface ge-0/0/2.0 level 1 disable
+set protocols isis interface ge-0/0/2.0 delay-measurement advertisement periodic threshold 100
+set protocols isis interface ge-0/0/2.0 point-to-point
+set protocols isis interface lo0.0
+set protocols isis source-packet-routing srgb start-label 1000
+set protocols isis source-packet-routing srgb index-range 1000
+set protocols isis source-packet-routing flex-algorithm 128
+set protocols isis source-packet-routing flex-algorithm 129
+set protocols isis source-packet-routing flex-algorithm 130
+set protocols isis level 2 labeled-preference 21
+set protocols isis level 2 flex-algorithm-preference 22
+set protocols isis level 2 wide-metrics-only
+set protocols isis level 2 preference 20
+set protocols isis traffic-engineering l3-unicast-topology
+set protocols isis traffic-engineering advertisement always
+set protocols isis export exp-anycast-sr
+set protocols mpls interface ge-0/0/0.0
+set protocols mpls interface ge-0/0/1.0
+set protocols mpls interface ge-0/0/2.0
+set protocols source-packet-routing use-transport-class
+</configuration-set>

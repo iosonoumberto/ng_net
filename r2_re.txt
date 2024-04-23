@@ -1,0 +1,411 @@
+<configuration-text>
+## Last changed: 2024-04-02 02:12:45 PDT
+version 23.4R1-S1.5;
+groups {
+    member0 {
+        system {
+            host-name r2_re;
+            backup-router 10.49.127.254;
+        }
+        interfaces {
+            fxp0 {
+                unit 0 {
+                    family inet {
+                        address 10.49.108.53/19;
+                    }
+                }
+            }
+        }
+    }
+    global {
+        system {
+            root-authentication {
+                encrypted-password "$1$ZUlES4dp$OUwWo1g7cLoV/aMWpHUnC/";
+            }
+            login {
+                class wheel {
+                    permissions snmp;
+                }
+                user regress {
+                    uid 928;
+                    class superuser;
+                    shell csh;
+                    authentication {
+                        encrypted-password "$1$kPU..$w.4FGRAGanJ8U4Yq6sbj7.";
+                    }
+                }
+                user remote {
+                    uid 2000;
+                    class super-user;
+                }
+            }
+            services {
+                netconf {
+                    ssh;
+                }
+                ssh {
+                    root-login allow;
+                }
+                finger;
+                ftp;
+                rlogin;
+                telnet;
+                xnm-clear-text;
+            }
+            domain-name englab.juniper.net;
+            domain-search [ englab.juniper.net juniper.net jnpr.net ];
+            time-zone America/Los_Angeles;
+            debugger-on-break;
+            dump-on-panic;
+            authentication-order [ password radius ];
+            name-server {
+                10.49.32.95;
+                10.49.32.97;
+            }
+            radius-server {
+                10.48.144.16 secret "$9$TQ/t1IcSrKAt0IRheK8X7VYgaZDm5zNdiqmTn6";
+                10.48.144.17 secret "$9$GqUqf3nCApOPfQn690ORhSeWL7-boZDylsgoGHk";
+            }
+            syslog {
+                host log {
+                    kernel info;
+                    any notice;
+                    pfe info;
+                    interactive-commands any;
+                }
+                file messages {
+                    kernel info;
+                    any notice;
+                    authorization info;
+                    pfe info;
+                    archive world-readable;
+                }
+                file security {
+                    interactive-commands any;
+                    archive world-readable;
+                }
+            }
+            processes {
+                routing enable;
+                ntp enable;
+                management enable;
+                watchdog enable;
+                snmp enable;
+                inet-process enable;
+                mib-process enable;
+            }
+            ntp {
+                boot-server 66.129.255.75;
+                server 66.129.255.75;
+                server 172.29.131.60;
+                server 172.29.135.60;
+            }
+        }
+        chassis {
+            dump-on-panic;
+        }
+        snmp {
+            location "Systest lab";
+            contact "Jay Lloyd";
+            interface fxp0.0;
+            community public {
+                authorization read-only;
+            }
+            community private {
+                authorization read-write;
+            }
+        }
+        routing-options {
+            static {
+                /* corperate and alpha net */
+                route 172.16.0.0/12 {
+                    next-hop 10.49.127.254;
+                    retain;
+                    no-readvertise;
+                }
+                /* eng lab nets */
+                route 192.168.0.0/16 {
+                    next-hop 10.49.127.254;
+                    retain;
+                    no-readvertise;
+                }
+                /* IT Networks */
+                route 10.0.0.0/8 {
+                    next-hop 10.49.127.254;
+                    retain;
+                    no-readvertise;
+                }
+                /* Sacramento */
+                route 66.129.0.0/16 {
+                    next-hop 10.49.127.254;
+                    retain;
+                    no-readvertise;
+                }
+            }
+        }
+    }
+    te-metric {
+        protocols {
+            isis {
+                interface &lt;*&gt; {
+                    level 2 te-metric 11;
+                }
+            }
+        }
+    }
+}
+apply-groups [ global member0 te-metric ];
+system {
+    ports {
+        console log-out-on-disconnect;
+    }
+}
+chassis {
+    network-services enhanced-ip;
+}
+services {
+    rpm {
+        twamp {
+            server {
+                authentication-mode none;
+                light;
+            }
+        }
+    }
+}
+interfaces {
+    ge-0/0/0 {
+        unit 0 {
+            family inet {
+                address 192.168.12.1/31;
+            }
+            family iso;
+            family mpls {
+                maximum-labels 16;
+            }
+        }
+    }
+    ge-0/0/1 {
+        unit 0 {
+            family inet {
+                address 192.168.23.0/31;
+            }
+            family iso;
+            family mpls {
+                maximum-labels 16;
+            }
+        }
+    }
+    ge-0/0/2 {
+        unit 0 {
+            family inet {
+                address 192.168.24.0/31;
+            }
+            family iso;
+            family mpls {
+                maximum-labels 16;
+            }
+        }
+    }
+    ge-0/0/3 {
+        flexible-vlan-tagging;
+        encapsulation flexible-ethernet-services;
+    }
+    ge-0/0/4 {
+        flexible-vlan-tagging;
+        encapsulation flexible-ethernet-services;
+        unit 601 {
+            encapsulation vlan-bridge;
+            vlan-id 601;
+        }
+    }
+    ge-0/0/5 {
+        unit 0 {
+            family inet {
+                address 192.168.201.12/24;
+            }
+            family iso;
+            family mpls {
+                maximum-labels 16;
+            }
+        }
+    }
+    ge-0/0/6 {
+        unit 0 {
+            family inet {
+                address 192.168.202.12/24;
+            }
+            family iso;
+            family mpls {
+                maximum-labels 16;
+            }
+        }
+    }
+    lo0 {
+        unit 0 {
+            family inet {
+                address 2.2.2.2/32;
+            }
+            family iso {
+                address 49.0001.0002.0002.0002.00;
+            }
+        }
+    }
+}
+policy-options {
+    policy-statement exp-anycast-sr {
+        term nodesid {
+            from {
+                interface lo0.0;
+                route-filter 2.2.2.2/32 exact;
+            }
+            then {
+                prefix-segment {
+                    algorithm 128 index 202 node-segment;
+                    algorithm 129 index 302 node-segment;
+                    algorithm 130 index 402 node-segment;
+                    index 102;
+                    node-segment;
+                }
+                accept;
+            }
+        }
+        then reject;
+    }
+}
+routing-instances {
+    evpn5 {
+        instance-type virtual-switch;
+        protocols {
+            evpn {
+                extended-vlan-list 601;
+            }
+        }
+        bridge-domains {
+            v601 {
+                domain-type bridge;
+                vlan-id 601;
+                interface ge-0/0/4.601;
+            }
+        }
+        route-distinguisher 2.2.2.2:106;
+        vrf-target {
+            target:100:106;
+            auto;
+        }
+    }
+}
+routing-options {
+    flex-algorithm 128 {
+        definition {
+            priority 200;
+        }
+        color 128;
+        use-transport-class;
+    }
+    flex-algorithm 129 {
+        definition {
+            metric-type delay-metric;
+            priority 200;
+        }
+        color 129;
+        use-transport-class;
+    }
+    flex-algorithm 130 {
+        definition {
+            metric-type te-metric;
+            priority 200;
+        }
+        color 130;
+        use-transport-class;
+    }
+    route-distinguisher-id 2.2.2.2;
+    autonomous-system 100;
+    static {
+        route 201.1.1.1/32 next-hop 192.168.201.1;
+        route 202.1.1.1/32 next-hop 192.168.202.1;
+    }
+    transport-class {
+        name tc128 {
+            color 128;
+        }
+        name tc129 {
+            color 129;
+        }
+        name tc130 {
+            color 130;
+        }
+    }
+}
+protocols {
+    bgp {
+        group rr1 {
+            type internal;
+            local-address 2.2.2.2;
+            family inet-vpn {
+                unicast;
+            }
+            family evpn {
+                signaling;
+            }
+            neighbor 201.1.1.1;
+            neighbor 202.1.1.1;
+        }
+    }
+    isis {
+        interface ge-0/0/0.0 {
+            level 1 disable;
+            level 2 te-metric 25;
+            delay-measurement {
+                advertisement {
+                    periodic {
+                        threshold 100;
+                    }
+                }
+            }
+            point-to-point;
+        }
+        interface ge-0/0/1.0 {
+            level 1 disable;
+            delay-measurement {
+                advertisement {
+                    periodic {
+                        threshold 100;
+                    }
+                }
+            }
+            point-to-point;
+        }
+        interface ge-0/0/2.0 {
+            level 1 disable;
+            delay-measurement {
+                advertisement {
+                    periodic {
+                        threshold 100;
+                    }
+                }
+            }
+            point-to-point;
+        }
+        interface lo0.0;
+        source-packet-routing {
+            srgb start-label 1000 index-range 1000;
+            flex-algorithm [ 128 129 130 ];
+        }
+        level 2 wide-metrics-only;
+        traffic-engineering {
+            l3-unicast-topology;
+            advertisement always;
+        }
+        export exp-anycast-sr;
+    }
+    mpls {
+        interface ge-0/0/0.0;
+        interface ge-0/0/1.0;
+        interface ge-0/0/2.0;
+    }
+    source-packet-routing {
+        use-transport-class;
+    }
+}
+</configuration-text>
